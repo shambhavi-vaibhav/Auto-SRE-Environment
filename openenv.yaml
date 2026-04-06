@@ -1,5 +1,5 @@
 spec_version: 1
-name: incident_response_env
+name: Auto-SRE-Environment
 type: space
 runtime: fastapi
 app: server.app:app
