@@ -99,7 +99,9 @@ def schema():
 
 
 @app.post("/reset")
-def reset(req: ResetRequest):
+def reset(req: Optional[ResetRequest] = None):
+    if req is None:
+        req = ResetRequest()
     obs = _env.reset(seed=req.seed, task_name=req.task_name)
     return obs.model_dump()
 
