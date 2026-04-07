@@ -172,9 +172,15 @@ def run_task(task_name: str, max_steps: int = 20) -> tuple[bool, float, list[flo
             done = result.get("done", False)
             message = result.get("message", "")
             data = result.get("data", {})
-            score = data.get("score_breakdown", {})
-            score = sum(score.values()) if isinstance(score, dict) else 0.0
-            score = min(1.0, round(score, 2))
+            score_data = data.get("score_breakdown", {})
+            raw_score = sum(score_data.values()) if isinstance(score_data, dict) else 0.0
+            if raw_score >= 1.0:
+                score = 0.99
+            elif raw_score <= 0.0:
+                score = 0.01
+            else:
+                score = round(raw_score, 2)
+            # score = min(1.0, round(score, 2))
 
             action_str = f"{action_type}:{target}"
             rewards.append(reward)
